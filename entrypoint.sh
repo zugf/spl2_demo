@@ -11,7 +11,7 @@ trap teardown SIGINT SIGTERM
 
 echo "Start splunk..."
 
-${splunk_cmd} start
+${splunk_cmd} start --accept-license --answer-yes --no-prompt --seed-passwd ${SPLUNK_PASSWORD}
 
 # stream log and keep splunk running
 echo Streaming ${SPLUNK_HOME}/var/log/splunk/splunkd_stderr.log...
