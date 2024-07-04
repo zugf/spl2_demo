@@ -1,4 +1,4 @@
 {
-  "splunk.commands.token": "",
+  "splunk.commands.token": "eyJraWQiOiJzcGx1bmsuc2VjcmV0IiwiYWxnIjoiSFM1MTIiLCJ2ZXIiOiJ2MiIsInR0eXAiOiJzdGF0aWMifQ.eyJpc3MiOiJhZG1pbiBmcm9tIDMwOTY4NmRhODMzYyIsInN1YiI6ImFkbWluIiwiYXVkIjoid2ViIiwiaWRwIjoiU3BsdW5rIiwianRpIjoiNTczMTVjMGQ4NDFjODkyZjMxMzIxMjM4YzRjNWExNmEyZDVmNDA0ZDExMjlhY2Y2M2U4MGFjODcxYWJhYjUwYSIsImlhdCI6MTcyMDEwOTk1NiwiZXhwIjoxNzIyNzAxOTU2LCJuYnIiOjE3MjAxMDk5NTZ9.fQsgSX4S8S2Go7BPmpsHR7IunFIpL6hvUJvp0Ye-CqOYOKhErunz-hjfxBV4V-DWWKdRTQSxsgO-haTUOlyFBQ",
   "splunk.spl2.acceptedTerms": "accepted"
 }

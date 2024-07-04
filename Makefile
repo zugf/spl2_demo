@@ -1,4 +1,5 @@
 SHELL := /bin/bash
+WORKSPACE_NAME := $(notdir $(shell pwd))
 
 .PHONY : create-rest-token
 create-rest-token:
@@ -28,9 +29,13 @@ finalize-setup:
 	make create-rest-token	
 
 clean-devcontainer:
-	docker container rm dev_spl2demo || true
-	docker volume rm spl2demo_etc || true
-	docker volume rm spl2demo_var || true
+	while docker ps -q -f name=dev_$(WORKSPACE_NAME) > /dev/null; do \
+		sleep 1; \
+		echo . ; \
+	done
+	docker container rm dev_$(WORKSPACE_NAME) || true
+	docker volume rm $(WORKSPACE_NAME)_etc || true
+	docker volume rm $(WORKSPACE_NAME)_var || true
 
 .PHONY: create_app_packages
 create_app_packages:
