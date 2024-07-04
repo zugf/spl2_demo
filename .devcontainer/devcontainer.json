@@ -1,0 +1,89 @@
+// For format details, see https://aka.ms/devcontainer.json
+{
+	"name": "Splunk",
+	"runArgs": [
+		"--name",
+		"dev_${localWorkspaceFolderBasename}",
+		"-v",
+		"${localWorkspaceFolderBasename}_etc:/opt/splunkbeta/etc",
+		"-v",
+		"${localWorkspaceFolderBasename}_var:/opt/splunkbeta/var"
+	],
+	"build": {
+		"dockerfile": "../Dockerfile",
+		"context": "..",
+		"args": {
+			"SPLUNK_PASSWORD": "splunkdev"
+		}
+	},
+	"overrideCommand": false,
+	"appPort": [
+		"8001:8000"
+	],
+	"portsAttributes": {
+		"8000": {
+			"label": "UI",
+			"onAutoForward": "notify"
+		}
+	},
+	"otherPortsAttributes": {
+		"onAutoForward": "silent"
+	},
+	"remoteUser": "splunk",
+	"containerEnv": {
+		"NODE_EXTRA_CA_CERTS": "/etc/ssl/certs/ca-certificates.crt"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				// python
+				"ms-python.python",
+				"njpwerner.autodocstring",
+				"charliermarsh.ruff",
+				// general
+				"Splunk.splunk",
+				"eamodio.gitlens",
+				"github.vscode-github-actions",
+				"shivanshu-gupta.scratchpads"
+			],
+			"settings": {
+				"extensions.autoUpdate": false,
+				"extensions.autoCheckUpdates": false,
+				"python.languageServer": "Pylance",
+				"python.analysis.typeCheckingMode": "basic",
+				"[python]": {
+					"editor.defaultFormatter": "charliermarsh.ruff",
+					"editor.formatOnSave": true,
+					"editor.codeActionsOnSave": {
+						"source.fixAll": "explicit",
+						"source.organizeImports": "explicit"
+					}
+				},
+				"autoDocstring.docstringFormat": "sphinx-notypes",
+				"python.testing.unittestEnabled": false,
+				"python.testing.pytestEnabled": true,
+				"python.testing.pytestArgs": [
+					".",
+					"--ignore-glob=**/lib/*",
+					"--ignore-glob=___*",
+					"--continue-on-collection-errors",
+					"--import-mode=importlib",
+					"--doctest-modules"
+				],
+				"splunk.enableSplunkExplorer": true,
+				"github-actions.workflows.pinned.workflows": [
+					".github/workflows/makefile.yml"
+				],
+				"github-actions.workflows.pinned.refresh.enabled": true
+			}
+		},
+		"codespaces": {
+			"repositories": {
+				"zepdev/*": {
+					"permissions": "read-all"
+				}
+			}
+		}
+	},
+	"postStartCommand": "# splunk start"
+}

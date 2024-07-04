@@ -32,10 +32,10 @@ ENV SPLUNK_PASSWORD="${SPLUNK_PASSWORD}"
 
 # disable locktest tool (not working)
 RUN echo "OPTIMISTIC_ABOUT_FILE_LOCKING=1" >> "/opt/splunkbeta/etc/splunk-launch.conf"
-# RUN sed -i 's/9800/9888/g' "/opt/splunkbeta/etc/splunk-launch.conf"
 # create var folder - so that it can be mapped to a docker volume
 RUN mkdir /opt/splunkbeta/var/
 
 COPY ./entrypoint.sh $SPLUNK_HOME/bin/entrypoint.sh
+COPY --chown=splunk:splunk ./deploy /tmp/deploy
 
 ENTRYPOINT ["/opt/splunkbeta/bin/entrypoint.sh"]
