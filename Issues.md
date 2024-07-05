@@ -37,3 +37,11 @@ Instead it is only working if I use WebUI install - or VSCode notebooks to uploa
   not automatically can access the previous data cells)
 
 - "Upload All" button (like "Run all"?)
+
+- Cells that only define functions or exports will raise an error if executed.
+
+    Error: No statements found in SPL2. Please assign at least one statement name using "$". For example: `$my_statement = from _internal`
+
+- markdown cells will change to code cells after restart of visual studio code
+
+- if code cells are changed to markdown the output is still part of the spl2 notebook source (but not visible in the notebook UI)

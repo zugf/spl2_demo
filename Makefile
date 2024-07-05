@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 WORKSPACE_NAME := $(notdir $(shell pwd))
+CONTAINER_NAME := dev_$(WORKSPACE_NAME)
 
 .PHONY : create-rest-token
 create-rest-token:
@@ -29,21 +30,32 @@ finalize-setup:
 	make create-rest-token	
 
 clean-devcontainer:
-	while docker ps -q -f name=dev_$(WORKSPACE_NAME) > /dev/null; do \
-		sleep 1; \
-		echo . ; \
-	done
-	docker container rm dev_$(WORKSPACE_NAME) || true
-	docker volume rm $(WORKSPACE_NAME)_etc || true
+	@echo Wait for shutdown $(CONTAINER_NAME) ; \
+	if [ "$$(docker ps -q -f name=$(CONTAINER_NAME))" ]; then \
+			echo "$(CONTAINER_NAME) still running. wait for shutdown..." ; \
+			timeout 15 docker wait $(CONTAINER_NAME) >/dev/null || (echo "Timeout. container $(CONTAINER_NAME) still running."  >&2 ; exit 2;) \
+	fi ; \
+	docker container rm dev_$(WORKSPACE_NAME) || true ; \
+	docker volume rm $(WORKSPACE_NAME)_etc || true ; \
 	docker volume rm $(WORKSPACE_NAME)_var || true
 
 .PHONY: create_app_packages
 create_app_packages:
 	@src_dir="apps"; \
 	target_dir="deploy/apps"; \
+	rm -rf "$$target_dir"; \
 	mkdir -p "$$target_dir"; \
 	cd "$$src_dir"; \
 	for dir in */; do \
 	  base=$$(basename "$$dir"); \
 	  tar -czf "../$$target_dir/$$base.tar.gz" "$$dir"; \
 	done
+
+
+.PHONY:build-docker
+build-docker:
+	docker build --build-arg SPLUNK_PASSWORD=$(SPLUNK_PASSWORD) -t splunkbeta . 
+
+.PHONY: run-docker
+run-docker:
+	docker run --name splunkbeta --rm -it -p 8001:8000 splunkbeta
