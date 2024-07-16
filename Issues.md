@@ -68,6 +68,4 @@ Instead it is only working if I use WebUI install - or VSCode notebooks to uploa
 
 - typed dataset possible?
 
-- `select` vs `fields` command? (table/fields) `select --> materialize?`
-
 - materialized views... if data is used multiple times in an spl? Or is that automatically optimized by splunk
