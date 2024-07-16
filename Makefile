@@ -59,3 +59,7 @@ build-docker:
 .PHONY: run-docker
 run-docker:
 	docker run --name splunkbeta --rm -it -p 8001:8000 splunkbeta
+
+.PHONY: update-app-from-orchestrator
+update-app-from-orchestrator:
+	splunk download-spl2-modules app my_spl2app -dest default -auth admin:$(SPLUNK_PASSWORD)
